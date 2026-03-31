@@ -62,23 +62,24 @@
         .section h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.4rem, 3.5vw, 1.9rem); letter-spacing: -0.02em; color: var(--text); margin-bottom: 18px; line-height: 1.2; }
         .section p { color: #b0c0b8; font-size: 1rem; font-weight: 300; margin-bottom: 14px; }
         .section p:last-child { margin-bottom: 0; }
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px 32px; margin-bottom: 16px; transition: border-color 0.3s, transform 0.3s; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px 32px; margin-bottom: 16px; transition: border-color 0.3s, transform 0.3s; word-break: break-word; overflow-wrap: anywhere; }
         .card:hover { border-color: var(--emerald-border); transform: translateY(-2px); }
         .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 20px; }
         .data-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 12px; transition: border-color 0.2s; }
         .data-item:hover { border-color: var(--emerald-border); }
         .data-icon { width: 36px; height: 36px; background: var(--emerald-dim); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
         .data-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; font-weight: 500; }
-        .data-value { font-size: 0.9rem; color: var(--text); font-weight: 400; }
-        .highlight { background: var(--emerald-dim); border: 1px solid var(--emerald-border); border-radius: 16px; padding: 20px 24px; margin: 20px 0; display: flex; gap: 14px; align-items: flex-start; }
+        .data-value { font-size: 0.9rem; color: var(--text); font-weight: 400; word-break: break-word; overflow-wrap: anywhere; }
+        .highlight { background: var(--emerald-dim); border: 1px solid var(--emerald-border); border-radius: 16px; padding: 20px 24px; margin: 20px 0; display: flex; gap: 14px; align-items: flex-start; word-break: break-word; overflow-wrap: anywhere; }
         .highlight-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
-        .highlight p { color: #a7d9c4; margin: 0; font-size: 0.95rem; }
-        .warning { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 16px; padding: 20px 24px; margin: 20px 0; display: flex; gap: 14px; align-items: flex-start; }
-        .warning p { color: #c4c6fb; margin: 0; font-size: 0.95rem; }
+        .highlight p { color: #a7d9c4; margin: 0; font-size: 0.95rem; min-width: 0; flex: 1; }
+        .warning { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 16px; padding: 20px 24px; margin: 20px 0; display: flex; gap: 14px; align-items: flex-start; word-break: break-word; overflow-wrap: anywhere; }
+        .warning p { color: #c4c6fb; margin: 0; font-size: 0.95rem; min-width: 0; flex: 1; }
         .styled-list { list-style: none; padding: 0; margin: 16px 0; }
-        .styled-list li { display: flex; align-items: flex-start; gap: 10px; color: #b0c0b8; font-size: 0.97rem; font-weight: 300; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .styled-list li { display: flex; align-items: flex-start; gap: 10px; color: #b0c0b8; font-size: 0.97rem; font-weight: 300; padding: 8px 0; border-bottom: 1px solid var(--border); word-break: break-word; overflow-wrap: anywhere; }
         .styled-list li:last-child { border-bottom: none; }
         .styled-list li::before { content: '→'; color: var(--emerald); font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+        .styled-list li > div, .styled-list li > span { min-width: 0; flex: 1; }
         .contact-card { background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%); border: 1px solid var(--border); border-radius: 24px; padding: 40px; text-align: center; position: relative; overflow: hidden; }
         .contact-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top, rgba(16,185,129,0.06) 0%, transparent 60%); pointer-events: none; }
         .contact-card h2 { font-family: 'DM Serif Display', serif; font-size: 1.7rem; margin-bottom: 10px; }
@@ -101,10 +102,12 @@
         @media (max-width: 600px) {
             .wrapper { padding: 0 16px 80px; }
             header { padding: 40px 0 40px; }
-            .card { padding: 22px 20px; }
+            .card { padding: 20px 16px; }
             .contact-card { padding: 28px 20px; }
             .toc { padding: 22px 20px; }
-            .data-grid { grid-template-columns: 1fr 1fr; }
+            .data-grid { grid-template-columns: 1fr; }
+            .highlight, .warning { padding: 16px 18px; gap: 10px; }
+            .highlight-icon { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -215,11 +218,11 @@
                 <p><strong>Balancly nunca ve, guarda ni tiene acceso a tu contraseña.</strong> Punto.</p>
             </div>
             <p>
-                Todo el proceso de autenticación —inicio de sesión, registro y verificación de identidad— es manejado en su totalidad por <strong style="color:var(--text)">Firebase Authentication de Google</strong>. Esto significa que:
+                Todo el proceso de autenticación —inicio de sesión, registro y verificación de identidad— es manejado en su totalidad por <strong style="color:var(--text)">Google Authentication</strong>. Esto significa que:
             </p>
             <ul class="styled-list">
                 <li>Tu contraseña viaja directamente a los servidores de Google de forma cifrada. Nosotros <strong style="color:var(--text)">nunca la recibimos, ni la procesamos, ni la almacenamos</strong>.</li>
-                <li>Si usas <strong style="color:var(--text)">Iniciar sesión con Google</strong>, el proceso ocurre completamente dentro de la infraestructura de Google. Balancly solo recibe tu nombre y correo electrónico como confirmación de que el inicio de sesión fue exitoso.</li>
+                <li>Si usas la opción <strong style="color:var(--text)">"Iniciar sesión con Google"</strong>, el proceso ocurre completamente dentro de la infraestructura de Google. Balancly únicamente recibe tu nombre y correo electrónico como confirmación de que el acceso fue exitoso.</li>
                 <li>Google aplica estándares de seguridad de nivel empresarial para proteger tus credenciales: cifrado, detección de accesos sospechosos y autenticación en dos pasos (si la tienes activada en tu cuenta de Google).</li>
                 <li>En ningún momento tenemos la capacidad técnica de leer, recuperar o modificar tu contraseña, ni aunque quisiéramos.</li>
             </ul>
@@ -256,16 +259,16 @@
         <div class="card">
             <p>Tu información se almacena en dos lugares:</p>
             <ul class="styled-list">
-                <li><strong style="color:var(--text)">En tu dispositivo (localStorage):</strong> para acceso rápido y funcionamiento sin conexión.</li>
-                <li><strong style="color:var(--text)">En la nube (Firebase Firestore de Google):</strong> para sincronizar tu información entre dispositivos y evitar pérdida de datos.</li>
+                <li><strong style="color:var(--text)">En tu dispositivo (memoria local):</strong> para acceso rápido y funcionamiento sin conexión.</li>
+                <li><strong style="color:var(--text)">En la nube de Google:</strong> para sincronizar tu información entre dispositivos y evitar pérdida de datos.</li>
             </ul>
             <p style="margin-top:14px;">
-                Firebase cumple con los estándares internacionales de seguridad (ISO 27001, SOC 1/2/3) y cifra los datos en tránsito con TLS y en reposo. Puedes consultar las políticas de Google en
+                Google Cloud cumple con los estándares internacionales de seguridad (ISO 27001, SOC 1/2/3) y cifra los datos en tránsito con TLS y en reposo. Puedes consultar las políticas de Google en
                 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="inline-link">policies.google.com/privacy</a>.
             </p>
             <div class="highlight" style="margin-bottom:0;">
                 <span class="highlight-icon">✅</span>
-                <p>Tus datos financieros se identifican únicamente por tu UID de Firebase (un ID anónimo generado automáticamente). No los cruzamos con ningún otro servicio.</p>
+                <p>Tus datos financieros se identifican únicamente por un ID anónimo generado automáticamente por Google. No los cruzamos con ningún otro servicio.</p>
             </div>
         </div>
     </section>
@@ -278,16 +281,16 @@
             <p>Balancly utiliza los siguientes servicios externos para funcionar:</p>
             <div class="data-grid" style="margin-top:16px;">
                 <div class="data-item">
-                    <div class="data-icon">🔥</div>
+                    <div class="data-icon">☁️</div>
                     <div>
-                        <div class="data-label">Firebase (Google)</div>
+                        <div class="data-label">Google Cloud</div>
                         <div class="data-value">Autenticación de usuarios y base de datos en la nube. Gestiona el inicio de sesión y almacena tus datos de forma segura.</div>
                     </div>
                 </div>
                 <div class="data-item">
                     <div class="data-icon">🔔</div>
                     <div>
-                        <div class="data-label">OneSignal</div>
+                        <div class="data-label">Sinch (notificaciones)</div>
                         <div class="data-value">Servicio de notificaciones push. Solo se activa si tú lo permites explícitamente.</div>
                     </div>
                 </div>
@@ -305,7 +308,7 @@
             <ul class="styled-list">
                 <li>Solo se activan si presionas "Activar" en los ajustes de la app.</li>
                 <li>Puedes desactivarlas en cualquier momento desde la app o desde la configuración de tu dispositivo.</li>
-                <li>Usamos OneSignal, que genera un identificador anónimo de suscripción no vinculado a tu correo electrónico.</li>
+                <li>Usamos Sinch (proveedor de notificaciones de Google), que genera un identificador anónimo de suscripción no vinculado a tu correo electrónico.</li>
             </ul>
         </div>
     </section>
@@ -319,7 +322,7 @@
             <ul class="styled-list">
                 <li><strong style="color:var(--text)">Acceso:</strong> Puedes ver toda tu información directamente en la app.</li>
                 <li><strong style="color:var(--text)">Corrección:</strong> Puedes editar tu nombre, movimientos, recurrentes y cualquier dato ingresado.</li>
-                <li><strong style="color:var(--text)">Eliminación:</strong> En Ajustes → "Borrar todos los datos" eliminamos permanentemente toda tu información, tanto localmente como en Firebase. Esta acción es irreversible.</li>
+                <li><strong style="color:var(--text)">Eliminación:</strong> En Ajustes → "Borrar todos los datos" eliminamos permanentemente toda tu información, tanto en tu dispositivo como en la nube de Google. Esta acción es irreversible.</li>
                 <li><strong style="color:var(--text)">Portabilidad:</strong> Tus datos son visibles en la app en todo momento. Para una exportación formal, contáctanos.</li>
                 <li><strong style="color:var(--text)">Desactivar cuenta:</strong> Puedes cerrar sesión desde Ajustes. Tu información en la nube permanece hasta que la elimines explícitamente.</li>
             </ul>
@@ -354,18 +357,12 @@
         <div class="contact-card">
             <h2>¿Tienes alguna pregunta?</h2>
             <p>Si tienes dudas sobre esta política o quieres ejercer alguno de tus derechos, estamos disponibles para ayudarte.</p>
-            <a href="mailto:pasttelstudios@gmail.com" class="contact-link">✉️ &nbsp;Contáctanos</a>
-            <p style="margin-top:20px; font-size:0.82rem; color:var(--muted2);">pasttelstudios@gmail.com</p>
+            <a href="/cdn-cgi/l/email-protection#5424352720203138272021303d3b27143339353d387a373b39" class="contact-link">✉️ &nbsp;Contáctanos</a>
+            <p style="margin-top:20px; font-size:0.82rem; color:var(--muted2);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2858495b5c5c4d445b5c5d4c41475b684f45494144064b4745">[email&#160;protected]</a></p>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
         <div class="footer-logo">Balancly</div>
-        <p>Desarrollado por <a href="https://pasttelstudios.com" target="_blank" rel="noopener noreferrer" class="footer-link"><strong>PasttelStudios</strong></a> &nbsp;·&nbsp; Todos los derechos reservados © 2025</p>
-        <p style="margin-top:6px;">Tu dinero, bajo control.</p>
-    </footer>
-
-</div>
-</body>
-</html>
+        <p>Desarrollado por <a href="https://pasttelstudios.com" target="_blank" rel="noopener noreferrer" class="footer-link"><strong>PasttelStudio
